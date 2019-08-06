@@ -1,5 +1,5 @@
-    //#pragma GCC optimize("Ofast")
-    //#pragma GCC target("avx,avx2,fma")
+    #pragma GCC optimize("Ofast")
+    #pragma GCC target("avx,avx2,fma")
     #include <bits/stdc++.h>
     #include <time.h>
     #include <stdlib.h>
@@ -23,16 +23,16 @@
     #define vpll vector<pll>
     #define all(a) a.begin(),a.end()
     #define INF INT_MAX
-     
+
     #define o_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
     #define o_setll tree<ll, null_type,less<ll>, rb_tree_tag,tree_order_statistics_node_update>
     //member functions :
     //1. order_of_key(k) : number of elements strictly lesser than k
     //2. find_by_order(k) : k-th element in the set
-     
+
     using namespace std;
     using namespace __gnu_pbds;
-    
+
 struct Node{
 int x;
 int y;
@@ -125,9 +125,9 @@ else cout<<"-1\n";
 }
     int main()
     {
-        //IOS
+        IOS
 	head=NULL;
-	int t;
+	ll t;
 	cin>>t;
 	while(t--){
 		int f;
@@ -163,12 +163,3 @@ else cout<<"-1\n";
 	}
 	return 0;
     }
-
-
-
-
-
-
-
-
-
