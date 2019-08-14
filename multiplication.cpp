@@ -1,0 +1,124 @@
+    #pragma GCC optimize("Ofast")
+    #pragma GCC target("avx,avx2,fma")
+    #include <bits/stdc++.h>
+    #include <time.h>
+    #include <stdlib.h>
+    #include <ext/pb_ds/assoc_container.hpp>
+    #include <ext/pb_ds/tree_policy.hpp>
+    #define pb push_back
+    #define IOS ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    #define ll long long
+    #define ull unsigned long long
+    #define gcd(a,b) __gcd((a),(b))
+    #define lcm(a,b) ((a)*(b))/__gcd((a),(b))
+    #define clr(x) x.clear()
+    #define vi vector<int>
+    #define vll vector<long long>
+    #define vvi vector<vi>
+    #define mp make_pair
+    #define hell 1000000007
+    #define ii pair<int,int>
+    #define pll pair<ll,ll>
+    #define vii vector<ii>
+    #define vpll vector<pll>
+    #define all(a) a.begin(),a.end()
+    #define INF INT_MAX
+     
+    #define o_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+    #define o_setll tree<ll, null_type,less<ll>, rb_tree_tag,tree_order_statistics_node_update>
+    //member functions :
+    //1. order_of_key(k) : number of elements strictly lesser than k
+    //2. find_by_order(k) : k-th element in the set
+     
+    using namespace std;
+    using namespace __gnu_pbds;
+     
+    int main()
+    {
+        IOS
+	int t;
+	cin>>t;
+	cin.ignore();
+	while(t--){
+        string str;
+	getline(cin,str);
+	vi num1,num2;
+	for(int i=0;i<str.length();i++){
+	num1.pb(str[i]-'0');
+	}
+	getline(cin,str);
+	for(int i=0;i<str.length();i++)
+	num2.pb(str[i]-'0');
+
+	reverse(all(num1));
+	reverse(all(num2));
+
+	vi res;
+	int carry;
+	for(int i=0;i<num1.size();i++){
+	    carry=0;
+	    for(int j=0;j<num2.size();j++){
+		int mult=num1[i]*num2[j]+carry;
+		carry=mult/10;
+		mult%=10;
+		if(i+j>=res.size())
+		{
+		    res.pb(mult);
+		}
+		else{
+		    res[i+j]+=mult;
+		}
+	    }
+	    if(carry){
+		if(i+num2.size()>=res.size())
+		{
+		    res.pb(carry);
+		}
+		else{
+		    res[i+num2.size()]+=carry;
+		}
+	    }
+	}
+
+	carry=0;
+	for(int i=0;i<res.size();i++){
+	    carry=carry+res[i];
+	    res[i]=carry%10;
+	    carry/=10;
+	}
+	while(carry){
+	    res.pb(carry%10);
+	    carry/=10;
+	}
+	int i;
+	i=res.size()-1;
+
+	while(res[i]==0)
+	i--;
+
+	if(i<0){
+	    cout<<"0";
+	}
+
+	for(;i>=0;i--)
+	    cout<<res[i];
+	cout<<"\n";
+	}
+    return 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
