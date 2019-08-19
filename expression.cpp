@@ -219,6 +219,8 @@ void infixToPostfix(string s)
         else{ 
             while(st.top() != 'N' && prec(s[i]) <= prec(st.top())) 
             { 
+            	if(s[i]=='^'&&st.top()=='^')
+            		break;
                 char c = st.top(); 
                 st.pop(); 
                 string str="";
@@ -290,18 +292,13 @@ int main()
 		cin>>rows;
 		cin.ignore();
 		while(rows--){
-			string str;
-			getline(cin,str);
+			string str="(",str2;
+			getline(cin,str2);
+			str+=str2;
+			str+=")";
 			infixToPostfix(str);
 			cout<<"\n";
 		}
 	}
     return 0;
 }
-
-
-
-
-
-
-
