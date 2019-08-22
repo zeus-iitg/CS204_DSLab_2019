@@ -1,6 +1,7 @@
 #pragma GCC optimize("Ofast")
 #pragma GCC target("avx,avx2,fma")
 #include <bits/stdc++.h>
+#include <conio.h>
 #include <time.h>
 #include <stdlib.h>
 #include <ext/pb_ds/assoc_container.hpp>
@@ -180,7 +181,7 @@ ll eval(et* root)
 // The main function to convert infix expression
 //to postfix expression
 
-bool flag=false;
+int cnt=0;
 
 void infixToPostfix(string s)
 {
@@ -195,24 +196,23 @@ void infixToPostfix(string s)
         if(s[i] >= '0' && s[i] <= '9')
         {
         	int j=i;
-        	while((s[j] >= '0' && s[j] <= '9')&&( j<s.length() )){
+        	while(( j<s.length() )&&(s[j] >= '0' && s[j] <= '9')){
         		num=num*10+s[j]-'0';
         		j++;
         	}
         	i=j-1;
         	ns.pb(to_string(num));
         	num=0;
+        	if(cnt)
+                goto label;
         	continue;
         }
 
         // If the scanned character is an ‘)’, pop and to output string from the stack
-        // until an ‘(‘ is encountered.
-        else if(flag||s[i] == ')')
+        // until an ‘(’ is encountered.
+        else if(s[i] == ')')
         {
-            if(flag){
-                flag=false;
-                i--;
-            }
+            label:
             while(st.top() != 'N' && st.top() != '(')
             {
                 char c = st.top();
@@ -226,9 +226,14 @@ void infixToPostfix(string s)
                 char c = st.top();
                 st.pop();
             }
+            if(cnt)
+                cnt--;
+            if(cnt)
+                goto label;
+            else continue;
         }
 
-        // If the scanned character is an ‘(‘, push it to the stack.
+        // If the scanned character is an ‘(’, push it to the stack.
         else if(s[i] == '(')
 
         st.push('(');
@@ -236,7 +241,7 @@ void infixToPostfix(string s)
         //If an operator is scanned
         else{
             if(s[i]=='-'&&(i==0||s[i-1]=='('||isOperator(s[i-1]))){
-                flag=true;
+                cnt++;
                 st.push('(');
                 ns.pb("0");
                }
