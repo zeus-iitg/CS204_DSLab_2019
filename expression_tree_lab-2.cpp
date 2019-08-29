@@ -32,8 +32,83 @@
 using namespace std;
 using namespace __gnu_pbds;
 
-map<string,ll> mp;
-map<string,ll>::iterator it;
+class BSTNode
+{
+public:
+    string variable;
+    long long value;
+    BSTNode* Left;
+    BSTNode* Right;
+}*root=nullptr;
+
+BSTNode* create_node(string str,ll val){
+    BSTNode* temp=new BSTNode;
+    temp->variable=str;
+    temp->value=val;
+    temp->Left=nullptr;
+    temp->Right=nullptr;
+    return temp;
+}
+
+int lesser(string str1,string str2){
+    int i=0;
+    while(i<min(str1.length(),str2.length())){
+        if(str1[i]<str2[i])
+            return 1;
+        else if(str1[i]>str2[i])
+            return 2;
+        i++;
+    }
+    if(str1.length()<str2.length())
+        return 1;
+    else if(str1.length()>str2.length())
+        return 2;
+    else return 0;
+}
+
+void insert_node(string str,long long value){
+    if(root==nullptr){
+        root=create_node(str,value);
+        return;
+    }
+    BSTNode *temp=root,*last=nullptr;
+    int a;
+    while(temp){
+        last=temp;
+        a=lesser(temp->variable,str);
+        if(a==1){
+            temp=temp->Right;
+        }
+        else if(a==2){
+            temp=temp->Left;
+        }
+        else break;
+    }
+    if(temp==nullptr){
+        if(a==1)
+            last->Right=create_node(str,value);
+        else
+            last->Left=create_node(str,value);
+    }
+    else temp->value=value;
+    return;
+}
+
+BSTNode* search_node(string str){
+    BSTNode *temp=root;
+    int a;
+    while(temp){
+        a=lesser(temp->variable,str);
+        if(a==1){
+            temp=temp->Right;
+        }
+        else if(a==2){
+            temp=temp->Left;
+        }
+        else break;
+    }
+    return temp;
+}
 
 ll pow(ll base,ll power){
     if(power<0)
@@ -152,8 +227,8 @@ ll eval(et* root)
             return stoll(root->value);
         else
         {
-            it=mp.find(root->value);
-            return it->second;
+            BSTNode* node=search_node(root->value);
+            return node->value;
         }
     }
 
@@ -282,8 +357,8 @@ ll evaluate_value(string s){
             }
         }
         if(!is_number){
-            it=mp.find(ns[i]);
-            if(it==mp.end())
+            BSTNode* node=search_node(ns[i]);
+            if(node==nullptr)
             {
                 cant_be_evaluated=true;
                 return 0;
@@ -317,13 +392,8 @@ void infixToPostfix(string s)
             cout<<"CANT BE EVALUATED\n";
             cant_be_evaluated=false;
         }
-        else{
-            it=mp.find(variable);
-            if(it==mp.end())
-                mp.insert({variable,value});
-            else
-                it->second=value;
-        }
+        else
+            insert_node(variable,value);
         return;
     }
 
@@ -429,8 +499,8 @@ void infixToPostfix(string s)
             }
         }
         if(!is_number){
-            it=mp.find(ns[i]);
-            if(it==mp.end())
+            BSTNode* node=search_node(ns[i]);
+            if(node==nullptr)
             {
                 cout<<"CANT BE EVALUATED\n";
                 return;
@@ -462,7 +532,8 @@ int main()
 			str+=")";
 			infixToPostfix(str);
 		}
-		mp.clear();
+		free(root);
+        root=nullptr;
 	}
     return 0;
 }
