@@ -59,122 +59,122 @@ bool first_is_bigger(vi vec1,vi vec2,int i,int j){
 
 int main()
 {
-    IOS
-    //take input as string
-    string str;
-    getline(cin,str);
-    //storing numbers in two vectors
-    vi num1,num2;
-    int i;
-    bool flag=false;
-    for(i=0;;i++)
-    {
-        if(str[i]==' ')
-            break;
-        else{
-            if(str[i]=='0'&&flag==false)
-                continue;
-            else{
-                num1.pb(str[i]-'0');
-                flag=true;
-            }
-        }
-    }
-    if(num1.size()==0)
-        num1.pb(0);
-    i++;
-    flag=false;
-    for(;i<str.length();i++)
-    {
-        if(str[i]=='0'&&flag==false)
-            continue;
-        else{
-            num2.pb(str[i]-'0');
-            flag=true;
-        }
-    }
-    if(num2.size()==0)
-        num2.pb(0);
-    //checking if second number is zero
-    bool iszero=true;
-    for(int i=0;i<num2.size();i++)
-        if(num2[i]){
-            iszero=false;
-            break;
-        }
-    if(iszero){
-        cout<<"division by zero is not allowed\n";
-        exit(0);
-    }
-    //if first number is smaller than the second number
-    if(!first_is_bigger(num1,num2,0,num1.size()-1))
-    {
-        cout<<"quotient = 0\n";
-        cout<<"remainder = ";
-        for(int i=0;i<num1.size();i++)
-        {
-            cout<<num1[i];
-        }
-    }
-    //if first number is greater than or equal to the second number
-    else{
-        int len=num2.size();
-        int i=0;
-        int j=len-1;
-        vi quotient;
-        int ctr=0;
-        for(;;){
-            while(i<j&&num1[i]==0)
-                i++;
-            if(!first_is_bigger(num1,num2,i,j)){
-                j++;
-                quotient.pb(ctr);
-                ctr=0;
-                //division over
-                if(j==num1.size()){
-                    cout<<"quotient = ";
-                    int it=0;
-                    while(it<quotient.size()-1&&quotient[it]==0)
-                        it++;
-                    for(;it<quotient.size();it++)
-                    {
-                        cout<<quotient[it];
-                    }
-                    cout<<"\n";
-                    cout<<"remainder = ";
-                    while(i<num1.size()&&num1[i]==0)
-                        i++;
-                    if(i==num1.size())
-                        cout<<"0";
-                    else{
-                        for(int temp=i;temp<num1.size();temp++)
-                            cout<<num1[temp];
-                    }
-                    exit(0);
-                }
-            }
-            else{
-                int start=(j-i+1)==num2.size()?i:i+1;
-                for(int itr=start;itr<=j;itr++){
-                    if(num1[itr]>=num2[itr-start])
-                        num1[itr]-=num2[itr-start];
-                    else{
-                        int cur=itr;
-                        int find;
-                        for(find=itr-1;;find--){
-                            if(num1[find]!=0)
-                                break;
-                        }
-                        num1[find]--;
-                        for(int var=itr-1;var>find;var--){
-                            num1[var]=9;
-                        }
-                        num1[itr]=num1[itr]+10-num2[itr-start];
-                    }
-                }
-                ctr++;
-            }
-        }
+	int t;
+	cin>>t;
+	cin.ignore();
+	while(t--){
+		//take input as string
+		string str;
+		getline(cin,str);
+		//storing numbers in two vectors
+		vi num1,num2;
+		int i;
+		bool flag=false;
+		for(i=0;i<str.length();i++)
+		{
+		        if(str[i]=='0'&&flag==false)
+		            continue;
+		        else{
+		            num1.pb(str[i]-'0');
+		            flag=true;
+		        }
+		}
+		if(num1.size()==0)
+		    num1.pb(0);
+		getline(cin,str);
+		i=0;
+		flag=false;
+		for(;i<str.length();i++)
+		{
+		    if(str[i]=='0'&&flag==false)
+		        continue;
+		    else{
+		        num2.pb(str[i]-'0');
+		        flag=true;
+		    }
+		}
+		if(num2.size()==0)
+		    num2.pb(0);
+		//checking if second number is zero
+		bool iszero=true;
+		for(int i=0;i<num2.size();i++)
+		    if(num2[i]){
+		        iszero=false;
+		        break;
+		    }
+		if(iszero){
+		    cout<<"division by zero is not allowed\n";
+		    continue;
+		}
+		//if first number is smaller than the second number
+		if(!first_is_bigger(num1,num2,0,num1.size()-1))
+		{
+		    cout<<"0\n";
+		    for(int i=0;i<num1.size();i++)
+		    {
+		        cout<<num1[i];
+		    }
+		    cout<<"\n";
+		}
+		//if first number is greater than or equal to the second number
+		else{
+		    int len=num2.size();
+		    int i=0;
+		    int j=len-1;
+		    vi quotient;
+		    int ctr=0;
+		    for(;;){
+		        while(i<j&&num1[i]==0)
+		            i++;
+		        if(!first_is_bigger(num1,num2,i,j)){
+		            j++;
+		            quotient.pb(ctr);
+		            ctr=0;
+		            //division over
+		            if(j==num1.size()){
+		                int it=0;
+		                while(it<quotient.size()-1&&quotient[it]==0)
+		                    it++;
+		                for(;it<quotient.size();it++)
+		                {
+		                    cout<<quotient[it];
+		                }
+		                cout<<"\n";
+		                while(i<num1.size()&&num1[i]==0)
+		                    i++;
+		                if(i==num1.size())
+		                    cout<<"0";
+		                else{
+		                    for(int temp=i;temp<num1.size();temp++)
+		                        cout<<num1[temp];
+		                }
+		                cout<<"\n";
+		                break;
+		            }
+		        }
+		        else{
+		            int start=(j-i+1)==num2.size()?i:i+1;
+		            for(int itr=start;itr<=j;itr++){
+		                if(num1[itr]>=num2[itr-start])
+		                    num1[itr]-=num2[itr-start];
+		                else{
+		                    int cur=itr;
+		                    int find;
+		                    for(find=itr-1;;find--){
+		                        if(num1[find]!=0)
+		                            break;
+		                    }
+		                    num1[find]--;
+		                    for(int var=itr-1;var>find;var--){
+		                        num1[var]=9;
+		                    }
+		                    num1[itr]=num1[itr]+10-num2[itr-start];
+		                }
+		            }
+		            ctr++;
+		        }
+		    }
+		}
     }
     return 0;
 }
